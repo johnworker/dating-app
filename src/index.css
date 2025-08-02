@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 載入 Google Font 或本地字體 */
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+html {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* 背景圖案 */
+body {
+  background-image: url('/src/assets/images/pattern.svg');
+  background-repeat: repeat;
+}
