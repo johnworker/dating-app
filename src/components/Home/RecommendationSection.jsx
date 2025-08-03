@@ -7,24 +7,23 @@ import ProfileCard from '../Profile/ProfileCard'
 export default function RecommendationSection() {
   const { data, loading, error } = useFetch(fetchProfiles, [])
 
-  // 防禦式：確保取得的是陣列
+  // 防禦式轉換
   const profiles = Array.isArray(data)
     ? data
     : Array.isArray(data?.profiles)
       ? data.profiles
       : []
 
-  // 若無資料，用靜態示範資料
+  // 靜態示範資料（示範用 gender 欄位）
   const placeholders = [
-    { id: 'p1', name: 'Amy', bio: '熱愛旅行與美食', avatar: '/src/assets/images/default-avatar.png' },
-    { id: 'p2', name: 'Ben', bio: '喜歡電影與音樂', avatar: '/src/assets/images/default-avatar.png' },
-    { id: 'p3', name: 'Cindy', bio: '健身達人，運動狂', avatar: '/src/assets/images/default-avatar.png' },
-    { id: 'p4', name: 'David', bio: '科技新創工程師', avatar: '/src/assets/images/default-avatar.png' },
-    { id: 'p5', name: 'Eva', bio: '喜愛藝術與設計', avatar: '/src/assets/images/default-avatar.png' },
-    { id: 'p6', name: 'Frank', bio: '自由攝影師', avatar: '/src/assets/images/default-avatar.png' },
+    { id: 'p1', name: 'Amy', bio: '熱愛旅行與美食', gender: 'female' },
+    { id: 'p2', name: 'Ben', bio: '喜歡電影與音樂', gender: 'male' },
+    { id: 'p3', name: 'Cindy', bio: '健身達人，運動狂', gender: 'female' },
+    { id: 'p4', name: 'David', bio: '科技新創工程師', gender: 'male' },
+    { id: 'p5', name: 'Eva', bio: '喜愛藝術與設計', gender: 'female' },
+    { id: 'p6', name: 'Frank', bio: '自由攝影師', gender: 'male' },
   ]
 
-  // 最終顯示資料
   const list = (profiles.length > 0 ? profiles : placeholders).slice(0, 6)
 
   if (loading) {
@@ -55,10 +54,7 @@ export default function RecommendationSection() {
               data={user}
               index={i}
               actionLabel="配對"
-              onAction={() => {
-                // TODO: 實作配對邏輯
-                console.log('配對', user.name)
-              }}
+              onAction={() => console.log('配對', user.name)}
             />
           ))}
         </div>
