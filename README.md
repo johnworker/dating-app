@@ -6,7 +6,7 @@ dating-app/
 │   ├── api/
 │   │   ├── auth.js
 │   │   ├── profile.js
-│   │   └── match.js
+│   │   └── match.js             # ← 已含 fetchMatches & postMatch
 │   │
 │   ├── assets/
 │   │   ├── fonts/
@@ -16,11 +16,13 @@ dating-app/
 │   │       ├── hero-bg.jpg
 │   │       ├── section-bg.jpg
 │   │       ├── testimonial-bg.jpg
-│   │       └── avatars/                        # ← 新增：真實男女頭像
+│   │       └── avatars/                        # ← 3 男＋3 女
 │   │           ├── male1.jpg
 │   │           ├── male2.jpg
+│   │           ├── male3.jpg
 │   │           ├── female1.jpg
-│   │           └── female2.jpg
+│   │           ├── female2.jpg
+│   │           └── female3.jpg
 │   │
 │   ├── components/
 │   │   ├── Layout/
@@ -40,11 +42,11 @@ dating-app/
 │   │   │   └── Spinner.jsx
 │   │   │
 │   │   └── Profile/
-│   │       ├── ProfileCard.jsx               # ← 修改：依性別顯示不同預設頭像
+│   │       ├── ProfileCard.jsx               # ← 隨機挑 3 男／3 女
 │   │       └── ProfileForm.jsx
 │   │
 │   ├── hooks/
-│   │   ├── useAuth.js
+│   │   ├── useAuth.js                        # ← 回傳 isAuthenticated
 │   │   └── useFetch.js
 │   │
 │   ├── pages/
@@ -73,7 +75,7 @@ dating-app/
 │   └── index.css
 │
 ├── .env
-├── tailwind.config.js  
+├── tailwind.config.js   # ← 已定義 fade-in-up、背景
 ├── postcss.config.js
 ├── vite.config.js
 └── package.json

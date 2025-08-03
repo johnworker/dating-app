@@ -1,44 +1,63 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import useFetch from '../../hooks/useFetch'
+import useAuth from '../../hooks/useAuth'
 import { fetchProfiles } from '../../api/profile'
+import { postMatch } from '../../api/match'
 import Spinner from '../Common/Spinner'
 import ProfileCard from '../Profile/ProfileCard'
 
+// 將 avatar 欄位直接指向 assets 內的真實照片
+import male1 from '../../assets/images/avatars/male1.jpg'
+import male2 from '../../assets/images/avatars/male2.jpg'
+import male3 from '../../assets/images/avatars/male3.jpg'
+import female1 from '../../assets/images/avatars/female1.jpg'
+import female2 from '../../assets/images/avatars/female2.jpg'
+import female3 from '../../assets/images/avatars/female3.jpg'
+
 export default function RecommendationSection() {
+  const navigate = useNavigate()
+  const { isAuthenticated } = useAuth()
   const { data, loading, error } = useFetch(fetchProfiles, [])
 
-  // 防禦式轉換
+  // 確保 data 轉成陣列
   const profiles = Array.isArray(data)
     ? data
     : Array.isArray(data?.profiles)
       ? data.profiles
       : []
 
-  // 靜態示範資料（示範用 gender 欄位）
+  // 示範資料：3 男 + 3 女，並帶上 avatar 欄位
   const placeholders = [
-    { id: 'p1', name: 'Amy', bio: '熱愛旅行與美食', gender: 'female' },
-    { id: 'p2', name: 'Ben', bio: '喜歡電影與音樂', gender: 'male' },
-    { id: 'p3', name: 'Cindy', bio: '健身達人，運動狂', gender: 'female' },
-    { id: 'p4', name: 'David', bio: '科技新創工程師', gender: 'male' },
-    { id: 'p5', name: 'Eva', bio: '喜愛藝術與設計', gender: 'female' },
-    { id: 'p6', name: 'Frank', bio: '自由攝影師', gender: 'male' },
+    { id: 'p1', name: 'Alex',  bio: '旅遊愛好者',       avatar: male1 },
+    { id: 'p2', name: 'Brian', bio: '電影狂熱分子',   avatar: male2 },
+    { id: 'p3', name: 'Chris', bio: '自由街頭藝術家', avatar: male3 },
+    { id: 'p4', name: 'Diana', bio: '健身教練',       avatar: female1 },
+    { id: 'p5', name: 'Eva',   bio: '美食烘焙師',     avatar: female2 },
+    { id: 'p6', name: 'Fiona', bio: '攝影師',         avatar: female3 },
   ]
 
+  // 若後端有資料就用後端，否則顯示 placeholders
   const list = (profiles.length > 0 ? profiles : placeholders).slice(0, 6)
 
-  if (loading) {
-    return (
-      <section className="py-20 bg-gray-50">
-        <Spinner />
-      </section>
-    )
-  }
-  if (error) {
-    return (
-      <section className="py-20 bg-gray-50">
-        <p className="text-center text-red-500">載入失敗：{error.message}</p>
-      </section>
-    )
+  if (loading) return <Spinner />
+  if (error) return (
+    <p className="text-center text-red-500">載入失敗：{error.message}</p>
+  )
+
+  const handleMatch = async user => {
+    if (!isAuthenticated) {
+      toast.info('請先登入才能配對')
+      return navigate('/login')
+    }
+    try {
+      await postMatch(user.id)
+      toast.success(`${user.name} 已成功配對！`)
+    } catch (err) {
+      console.error(err)
+      toast.error(err.response?.data?.message || '配對失敗')
+    }
   }
 
   return (
@@ -54,7 +73,7 @@ export default function RecommendationSection() {
               data={user}
               index={i}
               actionLabel="配對"
-              onAction={() => console.log('配對', user.name)}
+              onAction={() => handleMatch(user)}
             />
           ))}
         </div>
