@@ -14,8 +14,13 @@ dating-app/
 │   │   └── images/
 │   │       ├── default-avatar.png
 │   │       ├── hero-bg.jpg
-│   │       └── section-bg.jpg
-│   │       └── testimonial-bg.jpg   # 見證區背景（可選）
+│   │       ├── section-bg.jpg
+│   │       ├── testimonial-bg.jpg
+│   │       └── avatars/                        # ← 新增：真實男女頭像
+│   │           ├── male1.jpg
+│   │           ├── male2.jpg
+│   │           ├── female1.jpg
+│   │           └── female2.jpg
 │   │
 │   ├── components/
 │   │   ├── Layout/
@@ -24,10 +29,10 @@ dating-app/
 │   │   │   ├── Footer.jsx
 │   │   │   └── Hero.jsx
 │   │   │
-│   │   ├── Home/                     # 新增首頁專用元件
-│   │   │   ├── FlowSection.jsx      # 使用流程
-│   │   │   ├── TestimonialSection.jsx # 使用者見證
-│   │   │   └── RecommendationSection.jsx # 熱門推薦
+│   │   ├── Home/
+│   │   │   ├── FlowSection.jsx
+│   │   │   ├── TestimonialSection.jsx
+│   │   │   └── RecommendationSection.jsx
 │   │   │
 │   │   ├── Common/
 │   │   │   ├── Button.jsx
@@ -35,7 +40,7 @@ dating-app/
 │   │   │   └── Spinner.jsx
 │   │   │
 │   │   └── Profile/
-│   │       ├── ProfileCard.jsx
+│   │       ├── ProfileCard.jsx               # ← 修改：依性別顯示不同預設頭像
 │   │       └── ProfileForm.jsx
 │   │
 │   ├── hooks/
@@ -43,7 +48,7 @@ dating-app/
 │   │   └── useFetch.js
 │   │
 │   ├── pages/
-│   │   ├── Home.jsx                 # 改寫：只呼叫 Hero + 三個區塊
+│   │   ├── Home.jsx
 │   │   ├── Login.jsx
 │   │   ├── Register.jsx
 │   │   ├── Dashboard.jsx
@@ -68,7 +73,7 @@ dating-app/
 │   └── index.css
 │
 ├── .env
-├── tailwind.config.js
+├── tailwind.config.js  
 ├── postcss.config.js
 ├── vite.config.js
 └── package.json

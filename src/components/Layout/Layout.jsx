@@ -1,9 +1,8 @@
-// src/components/Layout/Layout.jsx
 import Navbar from './Navbar'
-import Hero from './Hero'
 import Footer from './Footer'
+import Hero from './Hero'
 
-export default function Layout({ children, showHero = false }) {
+export default function Layout({ showHero, children }) {
   return (
     <div className="flex flex-col min-h-screen font-sans">
       <Navbar />
