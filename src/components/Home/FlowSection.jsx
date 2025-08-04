@@ -26,7 +26,7 @@ export default function FlowSection() {
               <img
                 src={step.icon}
                 alt={step.title}
-                className="w-16 h-16 mb-4 mx-auto"
+                className="w-60 h-60 mb-4 mx-auto"
               />
               <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
               <p className="text-gray-600">{step.desc}</p>

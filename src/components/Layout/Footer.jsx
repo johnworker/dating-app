@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-gray-900 text-gray-300 py-12 animate-fade-in-up">
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* 關於我們 */}
-        <div>
+        <div className="w-9/12">
           <h3 className="text-xl font-semibold mb-4 text-white">關於我們</h3>
           <p className="text-gray-400 leading-relaxed">
             MyDatingApp 致力於打造最真實、最安全的線上配對體驗，讓你輕鬆遇見志同道合的朋友。
