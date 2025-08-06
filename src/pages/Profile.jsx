@@ -1,23 +1,37 @@
+import React, { useEffect, useState } from 'react'
+import { fetchMyProfile, upsertProfile } from '../api/profile'
 import ProfileForm from '../components/Profile/ProfileForm'
-import useFetch from '../hooks/useFetch'
-import { fetchProfiles } from '../api/profile'
 import Spinner from '../components/Common/Spinner'
+import { toast } from 'react-toastify'
 
 export default function Profile() {
-  const { data: profiles, loading, error } = useFetch(fetchProfiles, [])
+  const [profile, setProfile] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // 讀取現有檔案
+    fetchMyProfile()
+      .then(data => setProfile(data))
+      .catch(err => toast.error(`載入失敗：${err.message}`))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const handleSave = async updated => {
+    try {
+      const saved = await upsertProfile(updated)
+      setProfile(saved)
+      toast.success('個人檔案更新成功！')
+    } catch (err) {
+      toast.error(`更新失敗：${err.message}`)
+    }
+  }
 
   if (loading) return <Spinner />
-  if (error) return <p className="text-red-500">載入失敗：{error.message}</p>
-
-  const myProfile = profiles.find(p => p.isMine) || profiles[0]
 
   return (
-    <section className="bg-section bg-cover bg-center py-12">
-      <div className="max-w-lg mx-auto bg-white bg-opacity-90 backdrop-blur-md 
-                      rounded-lg p-8 animate-fade-in-up">
-        <h1 className="text-2xl font-bold mb-4">我的個人檔案</h1>
-        <ProfileForm initialData={myProfile} onSaved={() => {}} />
-      </div>
-    </section>
+    <div className="max-w-lg mx-auto mt-8">
+      <h1 className="text-3xl mb-6">編輯個人檔案</h1>
+      <ProfileForm initialData={profile} onSave={handleSave} />
+    </div>
   )
 }

@@ -1,11 +1,24 @@
-import apiClient from '../utils/apiClient'
+import { supabase } from '../utils/supabaseClient'
 
-export const login = async (email, password) => {
-  const { data } = await apiClient.post('/auth/login', { email, password })
+/** 登入 */
+export async function login({ email, password }) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  })
+  if (error) throw error
   return data
 }
 
-export const register = async payload => {
-  const { data } = await apiClient.post('/auth/register', payload)
+/** 註冊 */
+export async function register({ email, password }) {
+  const { data, error } = await supabase.auth.signUp({ email, password })
+  if (error) throw error
   return data
+}
+
+/** 登出 */
+export async function logout() {
+  const { error } = await supabase.auth.signOut()
+  if (error) throw error
 }

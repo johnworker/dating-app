@@ -4,6 +4,10 @@ import App from './App'
 import './index.css'
 import { ToastContainer } from 'react-toastify'
 import { BrowserRouter } from 'react-router-dom'
+import { supabase } from './utils/supabaseClient'
+
+// （可選）在這裡預先觸發一次 getUser()，避免首屏閃爍
+supabase.auth.getSession()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

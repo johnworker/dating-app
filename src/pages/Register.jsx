@@ -1,3 +1,5 @@
+import { register } from '../api/auth'
+// 呼叫 register({ email, password }), 成功後可跳轉到 Login
 import RegisterForm from '../components/Auth/RegisterForm'
 export default function Register() {
   return (

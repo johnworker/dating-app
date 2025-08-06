@@ -1,19 +1,30 @@
-import apiClient from '../utils/apiClient'
+import { supabase } from '../utils/supabaseClient'
 
-/**
- * 取得目前使用者的配對清單
- * GET /matches
- */
-export const fetchMatches = async () => {
-  const { data } = await apiClient.get('/matches')
+export async function fetchMatches() {
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser()
+  if (userError || !user) throw userError || new Error('無法取得會員資訊')
+
+  const { data, error } = await supabase
+    .from('matches')
+    .select('*, target:profiles(*)')
+    .eq('user_id', user.id)
+  if (error) throw error
   return data
 }
 
-/**
- * 發起配對請求 (需先登入)
- * POST /matches
- */
-export const postMatch = async targetUserId => {
-  const { data } = await apiClient.post('/matches', { targetUserId })
+export async function postMatch(profile) {
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser()
+  if (userError || !user) throw userError || new Error('無法取得會員資訊')
+
+  const { data, error } = await supabase
+    .from('matches')
+    .insert([{ user_id: user.id, target_user_id: profile.user_id }])
+  if (error) throw error
   return data
 }
